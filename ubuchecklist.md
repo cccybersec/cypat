@@ -6,13 +6,6 @@
 
 ## system update and upgrade
 
-# disk encryption
-
-# ufw
-## gufw?
-
-# app-armor?
-
 # lynis
 
 # passwords 
@@ -35,6 +28,9 @@
 #Display All Current Connections, Listening Services, and Processes
 netstat -tulpn
 
+## ufw
+gufw?
+
 ## ip tables
 
 # services
@@ -53,9 +49,13 @@ sshd
 /var/log/apt — Apt package manager logs.  
 
 # other
-#Check for Rootkits
+#Check for Rootkits  
 apt-get install rkhunter
 rkhunter -C
+
+#disk encryption
+
+#app-armor?
 
 #chron
 
