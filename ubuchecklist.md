@@ -13,6 +13,7 @@
 ## empty passwords
 
 # users & groups
+disable root user
 
 ## uid of 0
 
@@ -53,7 +54,16 @@ sshd
 apt-get install rkhunter
 rkhunter -C
 
+#fail2ban
+
 #disk encryption
+
+## clamav
+Update database – sudo apt-get update  
+o Install ClamAV – sudo apt-get install clamav  
+o Update virus database – sudo freshclam  
+o Check entire system for viruses – sudo clamscan –i –r --remove=yes /  
+- Run this in a separate terminal as it will take a while  
 
 #app-armor?
 
