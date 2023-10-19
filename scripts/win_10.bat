@@ -8,13 +8,39 @@ netsh advfirewall firewall set rule name="Remote Assistance (TCP-In)" new enable
 netsh advfirewall firewall set rule name="Telnet Server" new enable=no 
 netsh advfirewall firewall set rule name="netcat" new enable=no
 net accounts /lockoutthreshold:5 /MINPWLEN:8 /MAXPWAGE:30 /MINPWAGE:1 /UNIQUEPW:5
-start secpol.msc /wait
-set services=RemoteAccess Telephony TapiSrv Tlntsvr tlntsvr p2pimsvc simptcp fax msftpsvc iprip ftpsvc RemoteRegistry RasMan RasAuto seclogon MSFTPSVC W3SVC SMTPSVC Dfs TrkWks MSDTC DNS ERSVC NtFrs MSFtpsvc helpsvc HTTPFilter IISADMIN IsmServ WmdmPmSN Spooler RDSessMgr RPCLocator RsoPProv	ShellHWDetection ScardSvr Sacsvr TermService Uploadmgr VDS VSS WINS WinHttpAutoProxySvc SZCSVC CscService hidserv IPBusEnum PolicyAgent SCPolicySvc SharedAccess SSDPSRV Themes upnphost nfssvc nfsclnt MSSQLServerADHelperfor %%a in (!services!) do (
-for %%a in (%services%) do (
-	echo Service: %%a
-	sc stop "%%a"
-	sc config "%%a" start= disabled
-)
+::start secpol.msc /wait
+	sc stop TapiSrv
+	sc config TapiSrv start= disabled
+	sc stop TlntSvr
+	sc config TlntSvr start= disabled
+	sc stop ftpsvc
+	sc config ftpsvc start= disabled
+	sc stop SNMP
+	sc config SNMP start= disabled
+	sc stop SessionEnv
+	sc config SessionEnv start= disabled
+	sc stop TermService
+	sc config TermService start= disabled
+	sc stop UmRdpService
+	sc config UmRdpService start= disabled
+	sc stop SharedAccess
+	sc config SharedAccess start= disabled
+	sc stop remoteRegistry 
+	sc config remoteRegistry start= disabled
+	sc stop SSDPSRV
+	sc config SSDPSRV start= disabled
+	sc stop W3SVC
+	sc config W3SVC start= disabled
+	sc stop SNMPTRAP
+	sc config SNMPTRAP start= disabled
+	sc stop remoteAccess
+	sc config remoteAccess start= disabled
+	sc stop RpcSs
+	sc config RpcSs start= disabled
+	sc stop HomeGroupProvider
+	sc config HomeGroupProvider start= disabled
+	sc stop HomeGroupListener
+	sc config HomeGroupListener start= disabled
 set /p rdpCheck="Enable remote desktop (y/n)"
 if %rdpCheck%==y (
 	echo Enabling remote desktop...
@@ -159,22 +185,3 @@ for /f "delims=" %%a in ('cscript //NoLogo .\GetLocalUsers.vbs') do (
         net user %%a q1W@e3R$t5Y^u7I*o9
     )
 )
-set filetypes=mp3 mov mp4 avi mpg mpeg flac m4a flv ogg gif png jpg jpeg
-cd C:\Users
-for %%i in (!filetypes!) do (
-    choice /c yn /m "Do you wish to delete .%%i files? "
-        if !ERRORLEVEL! equ 1 (
-            echo Deleting .%%i files...
-                for /f "delims=" %%a in ('dir /s /b *.%%i') do (
-                    choice /c yno /m "Do you wish to delete %%a? "
-                        if !ERRORLEVEL! equ 1 (
-                            echo Deleting %%a...
-                            del "%%a"
-                        ) else (
-                            if !ERRORLEVEL! equ 2 (
-                                echo Skipping %%a...
-                            ) else (
-                                explorer.exe %%a\..
-                            )
-                        )
-                    )
