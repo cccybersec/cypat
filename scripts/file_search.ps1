@@ -2,28 +2,28 @@
 #SET USER BEFORE RUNNING!!
 $user= 'user'
 
-    New-Item -Path C:\Users\$user\Desktop\W12 -ItemType directory
-    New-Item -Path C:\Users\$user\Desktop\W12\userfiles -ItemType directory
-    New-Item -Path C:\Users\$user\Desktop\W12\programfiles -ItemType directory
-    New-Item -Path C:\Users\$user\Desktop\W12\programfilesx86 -ItemType directory
-    New-Item -Path C:\Users\$user\Desktop\W12\documents -ItemType directory
-	 New-Item -Path C:\Users\$user\Desktop\W12\OS_search_engine -ItemType directory
+    New-Item -Path C:\Users\$user\Desktop\asdf -ItemType directory
+    New-Item -Path C:\Users\$user\Desktop\asdf\userfiles -ItemType directory
+    #New-Item -Path C:\Users\$user\Desktop\asdf\programfiles -ItemType directory
+    #New-Item -Path C:\Users\$user\Desktop\asdf\programfilesx86 -ItemType directory
+    New-Item -Path C:\Users\$user\Desktop\asdf\documents -ItemType directory
+	#New-Item -Path C:\Users\$user\Desktop\asdf\OS_search_engine -ItemType directory
 Write-Warning "grabbing user files"  
-    Get-ChildItem -Path "C:\Users\*" -Include *.jpg,*.png,*.aac,*.ac3,*.avi,*.aiff,*.bat,*.bmp,*.exe,*.flac,*.gif,*.jpeg,*.mov,*.m3u,*.m4p,*.mp2,*.mp3,*.mp4,*.mpeg4,*.midi,*.msi,*.ogg,*.png,*.txt,*.sh,*.wav,*.wma,*.vqf,*.pcap,*.zip,*.pdf,*.json -Recurse | Copy-Item -Destination C:\Users\$user\Desktop\W12\userfiles
+    Get-ChildItem -Path "C:\Users\*" -Include *.jpg,*.png,*.aac,*.ac3,*.avi,*.aiff,*.bat,*.bmp,*.exe,*.flac,*.gif,*.jpeg,*.mov,*.m3u,*.m4p,*.mp2,*.mp3,*.mp4,*.mpeg4,*.midi,*.msi,*.ogg,*.png,*.txt,*.sh,*.wav,*.wma,*.vqf,*.pcap,*.zip,*.pdf,*.json -Recurse | Copy-Item -Destination C:\Users\$user\Desktop\asdf\userfiles
 Write-Warning "grabbing documents"
-    Get-ChildItem -Path "C:\Users\$user\Documents\*" -Include *.jpg,*.png,*.aac,*.ac3,*.avi,*.aiff,*.bat,*.bmp,*.exe,*.flac,*.gif,*.jpeg,*.mov,*.m3u,*.m4p,*.mp2,*.mp3,*.mp4,*.mpeg4,*.midi,*.msi,*.ogg,*.png,*.txt,*.sh,*.wav,*.wma,*.vqf,*.pcap,*.zip,*.pdf,*.json -Recurse | Copy-Item -Destination C:\Users\$user\Desktop\W12\documentsandsettings
+    Get-ChildItem -Path "C:\Users\$user\Documents\*" -Include *.jpg,*.png,*.aac,*.ac3,*.avi,*.aiff,*.bat,*.bmp,*.exe,*.flac,*.gif,*.jpeg,*.mov,*.m3u,*.m4p,*.mp2,*.mp3,*.mp4,*.mpeg4,*.midi,*.msi,*.ogg,*.png,*.txt,*.sh,*.wav,*.wma,*.vqf,*.pcap,*.zip,*.pdf,*.json -Recurse | Copy-Item -Destination C:\Users\$user\Desktop\asdf\documentsandsettings
 Write-Warning "special media files"
-    Get-ChildItem -Path C:\Users -Include .jpg,.png,.jpeg,.avi,.mp4,.mp3,*.wav -Exclude .dll,.doc,*.docx,  -File -Recurse -ErrorAction SilentlyContinue | Out-File -filepath C:\Users\$user\Desktop\W12\Mediafiles.txt
+    Get-ChildItem -Path C:\Users -Include .jpg,.png,.jpeg,.avi,.mp4,.mp3,*.wav -Exclude .dll,.doc,*.docx,  -File -Recurse -ErrorAction SilentlyContinue | Out-File -filepath C:\Users\$user\Desktop\asdf\Mediafiles.txt
     'these are only copies'
 Write-Warning "managing users"
-    net user > W12\users.txt
-    net localgroup > W12\groups.txt
+    net user > C:\Users\$user\Desktop\asdf\users.txt
+    net localgroup > C:\Users\$user\Desktop\asdf\groups.txt
     Write-Warning "grabbing network shares to check"
-    net share > W12\shares.txt
+    net share > C:\Users\$user\Desktop\asdf\shares.txt
     Write-Warning "grabbing hosts file"	
-    New-Item -Path C:\Users\$user\Desktop\W12\hosts -ItemType directory
-    Get-ChildItem -Path "C:\Windows\System32\drivers\etc\hosts" | Copy-Item -Destination C:\Users\$user\Desktop\W12\hosts
-    dism /online /disable-feature /featurename:IIS-WebServerRole
+    New-Item -Path C:\Users\$user\Desktop\asdf\hosts -ItemType directory
+    Get-ChildItem -Path "C:\Windows\System32\drivers\etc\hosts" | Copy-Item -Destination C:\Users\$user\Desktop\asdf\hosts
+    <#dism /online /disable-feature /featurename:IIS-WebServerRole
 	dism /online /disable-feature /featurename:IIS-WebServer
 	dism /online /disable-feature /featurename:IIS-CommonHttpFeatures
 	dism /online /disable-feature /featurename:IIS-HttpErrors
@@ -75,9 +75,9 @@ Write-Warning "managing users"
 	dism /online /disable-feature /featurename:TelnetClient
 	dism /online /disable-feature /featurename:TelnetServer
     dism /online /disable-feature /featurename:"SMB1Protocol"
-    Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force
+    Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force#>
     Write-Warning "investigating processes"
-    Get-Process | Where-Object {$_.WorkingSet -gt 20000000} > W12\interestingprocess.txt
+    Get-Process | Where-Object {$_.WorkingSet -gt 20000000} > C:\Users\$user\Desktop\asdf\interestingprocess.txt
     Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled True
     Set-NetFirewallProfile -DefaultInboundAction Block -DefaultOutboundAction Allow -NotifyOnListen True -AllowUnicastResponseToMulticast True -LogFileName %SystemRoot%\System32\LogFiles\Firewall\pfirewall.log
    netsh advfirewall firewall set rule group="Network Discovery" new enable=No
@@ -172,7 +172,7 @@ Write-Warning "managing users"
     reg ADD HKLM\SYSTEM\CurrentControlSet\services\Netlogon\Parameters /v SignSecureChannel /t REG_DWORD /d 1 /f
     # Seal Channel
     reg ADD HKLM\SYSTEM\CurrentControlSet\services\Netlogon\Parameters /v SealSecureChannel /t REG_DWORD /d 1 /f
-    # Don't disable CTRL+ALT+DEL for some reason
+    # Don't disable CTRL+ALT+DEL
     reg ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v DisableCAD /t REG_DWORD /d 0 /f 
     # Restrict Anonymous Enumeration #1
     reg ADD HKLM\SYSTEM\CurrentControlSet\Control\Lsa /v restrictanonymous /t REG_DWORD /d 1 /f 
