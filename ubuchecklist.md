@@ -49,6 +49,9 @@ sshd
 /var/log/utmp or /var/log/wtmp — Login records file.  
 /var/log/apt — Apt package manager logs.  
 
+# CUPS
+
+
 # other
 #Check for Rootkits  
 apt-get install rkhunter
