@@ -33,7 +33,7 @@ done
 
 _apt-source(){
 # add correct sources to sources.list
-if [ YOLO == true ]; then
+if [ $YOLO == true ]; then
 	sed -i '/^#/!s/^/#/' /etc/apt/sources.list
 	echo "
 	deb http://deb.debian.org/debian/ $debver-updates main contrib
@@ -47,7 +47,7 @@ fi
 
 _pkgsearch(){
 #search for no no haxor man packages
-badpkgs=("nmap" "zenmap" "apache2" "nginx" "lighttpd" "wireshark" "tcpdump" "netcat" "nikto" "crack" "etter" "deluge" "sploit" "john" "ydra" "burp" "strike" "veil" "darkcomet" "empire")
+badpkgs=("nmap" "zenmap" "apache" "nginx" "lighttpd" "wireshark" "tcpdump" "netcat" "nikto" "crack" "etter" "deluge" "sploit" "john" "ydra" "burp" "strike" "veil" "darkcomet" "empire")
 
 for badpkg in "${badpkgs[@]}"; do
 	dpkg-query --showformat='${Package}\n' --show | grep $badpkg
@@ -62,7 +62,14 @@ for badpkg in "${badpkgs[@]}"; do
 done
 }
 
-
+_pkginstall(){
+goodpkgs=("ufw lynis")
+if [ $YOLO == true ]; then
+	sudo apt-get install ${goodpkgs}
+else
+ echo hi
+fi
+}
 
 
 _uid-check(){
@@ -75,7 +82,7 @@ current_sudo=$(getent group sudo | cut -d: -f4 | sed 's/,/ /g')
 for cur_su in ${current_sudo[@]}; do
    	echo ${admins[@]} | grep -Eqow $cur_su
    	if [ $? -eq 1 ]; then
-		if [ YOLO == true ]; then
+		if [ $YOLO == true ]; then
 			gpasswd --delete $cur_su sudo
 		else
        		echo $cur_su
@@ -86,7 +93,7 @@ done
 
 
 _ufw(){
-if [ YOLO == true ]; then
+if [ $YOLO == true ]; then
 
 else
 
