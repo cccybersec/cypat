@@ -53,7 +53,8 @@ for badpkg in "${badpkgs[@]}"; do
 	dpkg-query --showformat='${Package}\n' --show | grep $badpkg
 	if [ $? -eq 0 ]; then
 		if [ YOLO == true ]; then
-			echo ${Package} | grep "\S" | apt remove #!#!# need to test if this works
+			#echo ${Package} | grep "\S" | apt remove #!#!# need to test if this works
+			echo ${Package} | grep "\S"
 		else
 			#the "\S" removes blank lines
 			echo ${Package} | grep "\S"
@@ -67,7 +68,7 @@ goodpkgs=("ufw lynis")
 if [ $YOLO == true ]; then
 	sudo apt-get install ${goodpkgs}
 else
- echo hi
+	sudo apt-get install ${goodpkgs}
 fi
 }
 
