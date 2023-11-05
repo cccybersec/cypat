@@ -6,6 +6,7 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
+script_dir=$(dirname "$0")
 
 #SET 
 #THESE
@@ -21,7 +22,7 @@ admins=("gdornick" "hseldon" "hmallow" "adarell")
 
 _backup-files(){
 ## make copys of EVERYTHING that is changed in case my code hits the fan
-buppaths=("/etc/pam.d/common-auth" "/etc/pam.d/common-password" "/etc/shadow" "/etc/group" "/etc/passwd" "/etc/ssh/sshd_config" "/etc/apt/sources.list")
+buppaths=("/etc/pam.d/common-auth" "/etc/pam.d/common-password" "/etc/login.defs" "/etc/shadow" "/etc/group" "/etc/passwd" "/etc/ssh/sshd_config" "/etc/apt/sources.list")
 
 # funky sed sheniganders that appends .bak to these ^
 for buppath in $buppaths
@@ -44,6 +45,14 @@ else
 fi
 }
 
+_pkginstall(){ 
+goodpkgs=("ufw lynis rkhunter clamtk libpam-pwquality")
+if [ $YOLO == true ]; then
+	sudo apt-get install ${goodpkgs}
+else
+	echo "install these packages:" ${goodpkgs}
+fi
+}
 
 _sshd(){
 if [ $YOLO == true ]; then # make a proper sshd config later
@@ -54,8 +63,26 @@ echo /etc/ssh/sshd_config
 fi
 }
 
-_passwd-reqs(){
+_pam-cpasswd(){
+if [ $YOLO == true ]; then
+	sed -i '/^#/!s/^/#/' /etc/pam.d/common-password
+	(echo "password	requisite			pam_pwquality.so retry=3 minlen=12 maxrepeat=3 ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1 difok=4 reject_username enforce_for_root"
+	echo "password	[success=1 default=ignore]	pam_unix.so obscure use_authtok try_first_pass yescrypt"
+	echo "password	requisite			pam_deny.so"
+	echo "password	required			pam_permit.so"
+	echo "password	optional	pam_gnome_keyring.so " 
+	cat /etc/pam.d/common-password) > /etc/pam.d/common-password.tmp && mv /etc/pam.d/common-password.tmp /etc/pam.d/common-password
+else
+	cat /etc/pam.d/common-password
+fi
+}
 
+_login-defs(){
+if [ $YOLO == true ]; then
+	cat $script_dir/deb-login.defs > /etc/login.defs
+else
+	cat /etc/login.defs | grep -v '^#'
+fi
 
 }
 
@@ -77,14 +104,7 @@ for badpkg in "${badpkgs[@]}"; do
 done
 }
 
-_pkginstall(){ 
-goodpkgs=("ufw lynis rkhunter clamtk libpam-cracklib libpam-pwquality")
-if [ $YOLO == true ]; then
-	sudo apt-get install ${goodpkgs}
-else
-	echo "install these packages:" ${goodpkgs}
-fi
-}
+
 
 
 _uid-check(){

@@ -1,0 +1,84 @@
+MAIL_DIR        /var/mail
+#MAIL_FILE      .mail
+FAILLOG_ENAB		yes
+LOG_UNKFAIL_ENAB	no
+LOG_OK_LOGINS		no
+SYSLOG_SU_ENAB		yes
+SYSLOG_SG_ENAB		yes
+#SULOG_FILE	/var/log/sulog
+#TTYTYPE_FILE	/etc/ttytype
+FTMP_FILE	/var/log/btmp
+SU_NAME		su
+HUSHLOGIN_FILE	.hushlogin
+#HUSHLOGIN_FILE	/etc/hushlogins
+ENV_SUPATH	PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ENV_PATH	PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+TTYGROUP	tty
+TTYPERM		0600
+ERASECHAR	0177
+KILLCHAR	025
+UMASK		022
+PASS_MAX_DAYS	30
+PASS_MIN_DAYS	0
+PASS_WARN_AGE	7
+UID_MIN			1000
+UID_MAX			60000
+#SYS_UID_MIN		 100
+#SYS_UID_MAX		 999
+GID_MIN			1000
+GID_MAX			60000
+#SYS_GID_MIN		 100
+#SYS_GID_MAX		 999
+LOGIN_RETRIES		5
+LOGIN_TIMEOUT		60
+CHFN_RESTRICT		rwh
+DEFAULT_HOME	yes
+#USERDEL_CMD	/usr/sbin/userdel_local
+USERGROUPS_ENAB yes
+#CONSOLE	/etc/consoles
+#CONSOLE	console:tty01:tty02:tty03:tty04
+#CONSOLE_GROUPS		floppy:audio:cdrom
+#MD5_CRYPT_ENAB	no
+ENCRYPT_METHOD SHA512
+################# OBSOLETED BY PAM ##############
+#						#
+# These options are now handled by PAM. Please	#
+# edit the appropriate file in /etc/pam.d/ to	#
+# enable the equivelants of them.
+#
+###############
+
+#MOTD_FILE
+#DIALUPS_CHECK_ENAB
+#LASTLOG_ENAB
+#MAIL_CHECK_ENAB
+#OBSCURE_CHECKS_ENAB
+#PORTTIME_CHECKS_ENAB
+#SU_WHEEL_ONLY
+#CRACKLIB_DICTPATH
+#PASS_CHANGE_TRIES
+#PASS_ALWAYS_WARN
+#ENVIRON_FILE
+#NOLOGINS_FILE
+#ISSUE_FILE
+#PASS_MIN_LEN
+#PASS_MAX_LEN
+#ULIMIT
+#ENV_HZ
+#CHFN_AUTH
+#CHSH_AUTH
+#FAIL_DELAY
+
+################# OBSOLETED #######################
+#						 #
+# These options are no more handled by shadow.    #
+#                                                 #
+# Shadow utilities will display a warning if they #
+# still appear.                                   #
+#                                                 #
+###################################################
+
+# CLOSE_SESSIONS
+# LOGIN_STRING
+# NO_PASSWORD_CONSOLE
+# QMAIL_DIR
