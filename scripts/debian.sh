@@ -45,7 +45,21 @@ fi
 }
 
 
-_pkgsearch(){
+_sshd(){
+if [ $YOLO == true ]; then # make a proper sshd config later
+sed -i '/^#/!s/^/#/' /etc/ssh/sshd_config # defaults should be good ¯\_(ツ)_/¯
+echo /etc/ssh/sshd_config 
+else
+echo /etc/ssh/sshd_config
+fi
+}
+
+_passwd-reqs(){
+
+
+}
+
+_pkgsearch(){ ## add note about libpam-cracklib in run section to echo to user
 #search for no no haxor man packages
 badpkgs=("nmap" "zenmap" "apache" "nginx" "lighttpd" "wireshark" "tcpdump" "netcat" "nikto" "crack" "etter" "deluge" "sploit" "john" "ydra" "burp" "strike" "veil" "darkcomet" "empire")
 
@@ -63,12 +77,12 @@ for badpkg in "${badpkgs[@]}"; do
 done
 }
 
-_pkginstall(){
-goodpkgs=("ufw lynis")
+_pkginstall(){ 
+goodpkgs=("ufw lynis rkhunter clamtk libpam-cracklib libpam-pwquality")
 if [ $YOLO == true ]; then
 	sudo apt-get install ${goodpkgs}
 else
-	sudo apt-get install ${goodpkgs}
+	echo "install these packages:" ${goodpkgs}
 fi
 }
 
@@ -95,11 +109,23 @@ done
 
 _ufw(){
 if [ $YOLO == true ]; then
-
+	ufw reset --force & ufw enable
 else
-
+	ufw enable
 fi
 }
+
+_avscan(){
+if [ $YOLO == true ]; then
+	echo start a clamtk scan from the gui
+else
+	echo start a clamtk scan from the gui
+fi
+}
+
+
+
+
 
 
 _pkgsearch
