@@ -5,8 +5,7 @@
 Welcome to the CyPat Repository. This repository contains a collection of scripts created during our participation in the CyberPatriot competitions. These scripts were developed to assist in various aspects of cybersecurity and system administration tasks. Feel free to explore.
 ## Introduction
 
-CyberPatriot is a national youth cyber defense competition created by the Air Force Association. The competition aims to inspire students towards careers in cybersecurity and other STEM fields. As part of my participation in the CyberPatriot competition, I developed these scripts to automate various tasks, reinforce best practices, and strengthen the security posture of systems we managed.
-
+CyberPatriot is a national youth cyber defense competition created by the Air Force Association. The competition aims to inspire students towards careers in cybersecurity and other STEM fields.
 ## Usage
 
 To use any of the scripts in this repository, follow the steps below:
