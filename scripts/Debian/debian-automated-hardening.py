@@ -1,4 +1,4 @@
-# Debian script for CyPat
+# Debian script for CyPat #
 
 import os
 import subprocess
