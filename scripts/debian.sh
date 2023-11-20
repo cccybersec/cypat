@@ -7,6 +7,20 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 script_dir=$(dirname "$0")
+log_file="logfile.log"
+
+# Check if the log file already exists
+if [ -e "$log_file" ]; then
+    # Find the next available logfile
+    i=1
+    while [ -e "logfile$i.log" ]; do
+        ((i++))
+    done
+    log_file="logfile$i.log"
+fi
+
+# Redirect both stdout and stderr to the terminal and log file
+exec > >(tee -a "$log_file") 2>&1
 
 #SET 
 #THESE
@@ -18,6 +32,7 @@ debver=bullseye
 # get users & admins from the README you can use chat gpt for easy formatting ("user" "user" "user")
 users=("pverisof" "rolivaw" "jfara" "lpirenne" "lponyets" "lcrast" "shardin" "tsutt" "yfulham" "ylee" "dvenabili" "gtrevize" "jpelorat")
 admins=("gdornick" "hseldon" "hmallow" "adarell")
+
 
 
 _backup-files(){
@@ -32,21 +47,19 @@ done
 }
 
 _config_diff(){
-dpkg-query -W -f='${Conffiles}\n' '*' | awk 'OFS="  "{print $2,$1}' | LANG=C md5sum -c 2>/dev/null | awk -F': ' '$2 !~ /OK$/{print $1}' | sort | less
+dpkg-query -W -f='${Conffiles}\n' '*' | awk 'OFS="  "{print $2,$1}' | LANG=C md5sum -c 2>/dev/null | awk -F': ' '$2 !~ /OK$/{print $1}'
 
-echo "if anything shows up press no and check the file/s \n"
+echo "if anything shows up press no and check the file/s then rerun script and press yes"
 
 # Ask the user if they want to continue
 read -p "Do you want to continue? (y/n): " exit_script
 
 if [[ "$exit_script" == "y" || "$exit_script" == "Y" ]]; then
-    echo "Continuing with the rest of the script..."
-    # Add the rest of your script here
+    echo "onwards"
 else
-    echo "Terminating the script."
+    echo "so long pardner"
     exit 0
 fi
-
 }
 
 
