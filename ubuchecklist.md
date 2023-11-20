@@ -66,7 +66,10 @@ Update database – sudo apt-get update
 o Install ClamAV – sudo apt-get install clamav  
 o Update virus database – sudo freshclam  
 o Check entire system for viruses – sudo clamscan –i –r --remove=yes /  
-- Run this in a separate terminal as it will take a while  
+- Run this in a separate terminal as it will take a while
+
+see if config files have been changed
+dpkg-query -W -f='${Conffiles}\n' '*' | awk 'OFS="  "{print $2,$1}' | LANG=C md5sum -c 2>/dev/null | awk -F': ' '$2 !~ /OK$/{print $1}' | sort | less
 
 #app-armor?
 
