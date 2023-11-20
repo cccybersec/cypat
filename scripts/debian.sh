@@ -25,10 +25,28 @@ _backup-files(){
 buppaths=("/etc/pam.d/common-auth" "/etc/pam.d/common-password" "/etc/login.defs" "/etc/shadow" "/etc/group" "/etc/passwd" "/etc/ssh/sshd_config" "/etc/apt/sources.list")
 
 # funky sed sheniganders that appends .bak to these ^
-for buppath in $buppaths
+for buppath in ${buppaths[@]}
 do	
 	    sed '' $buppath -i.bak
 done
+}
+
+_config_diff(){
+dpkg-query -W -f='${Conffiles}\n' '*' | awk 'OFS="  "{print $2,$1}' | LANG=C md5sum -c 2>/dev/null | awk -F': ' '$2 !~ /OK$/{print $1}' | sort | less
+
+echo "if anything shows up press no and check the file/s \n"
+
+# Ask the user if they want to continue
+read -p "Do you want to continue? (y/n): " exit_script
+
+if [[ "$exit_script" == "y" || "$exit_script" == "Y" ]]; then
+    echo "Continuing with the rest of the script..."
+    # Add the rest of your script here
+else
+    echo "Terminating the script."
+    exit 0
+fi
+
 }
 
 
