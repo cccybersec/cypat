@@ -177,6 +177,15 @@ fi
 
 
 
-
+_backup-files
+_config_diff
+_apt-source
+_pkginstall
+_sshd
+_pam-cpasswd
+_login-defs
 _pkgsearch
+_uid-check
 _sudoers-check
+_ufw
+_avscan
