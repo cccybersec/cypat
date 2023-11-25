@@ -75,3 +75,4 @@ dpkg-query -W -f='${Conffiles}\n' '*' | awk 'OFS="  "{print $2,$1}' | LANG=C md5
 
 #chron
 
+https://github.com/ovh/debian-cis/blob/master/bin/hardening/1.1.1.3_disable_hfs.sh
