@@ -35,7 +35,6 @@ done
 _apt-source(){
 # add correct sources to sources.list
 if [ $YOLO == true ]; then
-	sed -i '/^#/!s/^/#/' /etc/apt/sources.list
 	echo "
 	deb http://deb.debian.org/debian/ $debver-updates main contrib
 	deb http://security.debian.org/debian-security $debver-security main contrib
