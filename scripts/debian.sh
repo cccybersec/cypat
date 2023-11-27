@@ -173,6 +173,73 @@ else
 fi
 }
 
+_chmod(){
+if [ $YOLO == true ]; then
+	chmod u-x,go-wx /etc/passwd
+	chown root:root /etc/passwd
+
+	chmod u-x,go-wx /etc/passwd-
+	chown root:root /etc/passwd-
+
+	chmod u-x,go-wx /etc/group
+	chown root:root /etc/group
+
+	chmod u-x,go-wx /etc/group-
+	chown root:root /etc/group-
+
+	chmod u-x,g-wx,o-rwx /etc/shadow
+	chown root:root /etc/shadow
+
+	chmod u-x,g-wx,o-rwx /etc/shadow-
+	chown root:root /etc/shadow-
+
+	chmod u-x,g-wx,o-rwx /etc/gshadow
+	chown root:root /etc/gshadow
+
+	chmod u-x,g-wx,o-rwx /etc/gshadow-
+	chown root:root /etc/gshadow-
+
+	chmod u-x,go-wx /etc/shells
+	chown root:root /etc/shells
+
+	[ -e "/etc/security/opasswd" ] && chmod u-x,go-rwx /etc/security/opasswd
+	[ -e "/etc/security/opasswd" ] && chown root:root /etc/security/opasswd
+	[ -e "/etc/security/opasswd.old" ] && chmod u-x,go-rwx /etc/security/opasswd.old
+	[ -e "/etc/security/opasswd.old" ] && chown root:root /etc/security/opasswd.old
+
+	# 6.1.14 Ensure system command files are group-owned by root
+	find /bin /sbin /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin ! -group root -type f ! -perm /2000 -exec chgrp root '{}' \;
+
+	# 6.1.16 Ensure directories that contain system commands set to 0755 or more restrictive
+	find /bin /sbin /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin -perm /022 -type d -exec chmod -R 755 '{}' \;
+
+	# 6.1.17 Ensure system library directories are group-owned by root
+	find /lib /usr/lib /lib64 ! -group root -type d -exec chgrp root '{}' \;
+
+	# 6.1.18 Ensure system library files are group-owned by root
+	find /lib /usr/lib /lib64 ! -group root -type f -exec chgrp root '{}' \;
+
+	#6.1.19 Ensure system library directories are owned by root
+	find /lib /usr/lib /lib64 ! -user root -type d -exec chown root '{}' \;
+
+	# 6.1.20 Ensure directories that contain system commands are owned by root
+	find /bin /sbin /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin ! -user root -type d -exec stat -c "%n %U" '{}' \;
+
+	# 6.1.21 Ensure system library files are owned by root
+	find /lib /usr/lib /lib64 ! -user root -type f -exec chown root '{}' \;
+
+	# 6.1.22 Ensure directories that contain system commands are group-owned by root
+	find /bin /sbin /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin ! -group root -type d -exec stat -c "%n %G" '{}' \;
+
+	# 6.1.23 Ensure system library directories are 0755 or more restrictive
+	find /lib /lib64 /usr/lib -perm /022 -type d -exec chmod 755 '{}' \;
+
+	# 6.1.24 Ensure system library files are 0755 or more restrictivE\e
+	find /lib /lib64 /usr/lib -perm /022 -type f -exec chmod 755 '{}' \;
+else
+	echo "add ls-ing perms for files"
+fi
+}
 
 
 
@@ -189,3 +256,4 @@ _uid-check
 _sudoers-check
 _ufw
 _avscan
+_chmod
