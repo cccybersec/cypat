@@ -176,12 +176,6 @@ echo > C:\Windows\System32\drivers\etc\hosts
 attrib +r +s C:\WINDOWS\system32\drivers\etc\hosts
 net user administrator /active:no
 net user guest /active:no
-for /f "delims=" %%a in ('cscript //NoLogo .\GetLocalUsers.vbs') do (
-    if !USERNAME! equ %%a (
-        echo Skipping current user %%a...
-        echo:
-    ) else (
-        echo Changing password of %%a...
-        net user %%a q1W@e3R$t5Y^u7I*o9
-    )
-)
+$Password = "CyberSecure123!"
+$UserAccount = Get-LocalUser | Where-Object -Property enabled
+$UserAccount | Set-localuser -Password $Password
