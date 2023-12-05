@@ -176,6 +176,10 @@ echo > C:\Windows\System32\drivers\etc\hosts
 attrib +r +s C:\WINDOWS\system32\drivers\etc\hosts
 net user administrator /active:no
 net user guest /active:no
-$Password = "CyberSecure123!"
-$UserAccount = Get-LocalUser | Where-Object -Property enabled
-$UserAccount | Set-localuser -Password $Password
+set newPassword=Cyb3rP4triot123!
+set currentUser=%USERNAME%
+
+:: Use PowerShell to get a list of user accounts (excluding system accounts)
+for /f "delims=" %%a in ('powershell "Get-LocalUser | Where-Object { $_.Name -ne 'Administrator' -and $_.Name -ne 'Guest' -and $_.Name -ne '%currentUser%' } | Select-Object -ExpandProperty Name"') do (
+    net user "%%a" %newPassword% >nul
+)
